@@ -1,0 +1,104 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Greptile
+providerId: greptile
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- AI
+- Codebase Understanding
+- Code Review
+- Code Search
+- Developer Tools
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Greptile spend. Greptile bills two cost streams: a per-seat
+  monthly subscription for the AI code-review GitHub App (with a bundle of
+  reviews included per seat and per-review overage), and per-query usage on the
+  REST API (standard vs. genius rate). Enterprise agreements add self-hosting and
+  negotiated, committed pricing.
+notes: >-
+  Per-seat bundle size, overage rate, and per-query rates change over time;
+  verify against the Greptile pricing page during reconciliation.
+sources:
+- https://www.greptile.com/pricing
+- https://docs.greptile.com/pricing
+- https://docs.greptile.com/quickstart
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Greptile
+serviceCategory: AI and Machine Learning
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Greptile
+  ServiceCategory: AI and Machine Learning
+  ProviderName: Greptile
+  PublisherName: Greptile
+  InvoiceIssuerName: Greptile
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: code_review_seats
+  description: Per-seat monthly subscription for the AI code-review GitHub App.
+  unit: seats
+  aggregation: max
+  dimensions:
+  - account
+  - team
+- name: code_review_overage
+  description: Reviews performed beyond the per-seat included bundle, billed per review.
+  unit: reviews
+  aggregation: sum
+  dimensions:
+  - account
+  - repository
+- name: api_queries_standard
+  description: Standard REST API queries billed per query.
+  unit: queries
+  aggregation: sum
+  dimensions:
+  - account
+  - api_key
+- name: api_queries_genius
+  description: Genius-mode REST API queries (larger model) billed at the higher per-query rate.
+  unit: queries
+  aggregation: sum
+  dimensions:
+  - account
+  - api_key
+- name: repository_indexing
+  description: Repositories submitted for indexing; cost driven by size and re-index frequency.
+  unit: repositories
+  aggregation: sum
+  dimensions:
+  - account
+  - repository
+principles:
+- name: Visibility
+  description: Separate code-review seat spend from per-query API spend; tag API keys per workload.
+- name: Allocation
+  description: Map seats to teams and API keys to projects/cost centers.
+- name: Optimization
+  description: Reserve genius mode for complex bug diagnosis; use standard queries for routine Q&A; right-size code-review seats to the included review bundle; apply open-source/startup discounts where eligible.
+- name: Accountability
+  description: Assign owners per repository and key; review monthly seat utilization and query burn against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

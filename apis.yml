@@ -1,0 +1,128 @@
+aid: greptile
+url: https://raw.githubusercontent.com/api-evangelist/greptile/refs/heads/main/apis.yml
+name: Greptile
+kind: company
+description: Greptile builds an AI layer that understands entire codebases. Its public
+  REST API indexes Git repositories into a graph plus embeddings, then answers natural-language
+  questions and searches over that code. Greptile also ships an AI code-review product
+  delivered as a GitHub App that reviews pull requests for bugs and anti-patterns.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- AI
+- Codebase Understanding
+- Code Review
+- Code Search
+- Developer Tools
+created: '2026-06-20'
+modified: '2026-06-20'
+specificationVersion: '0.19'
+apis:
+- aid: greptile:greptile-query-api
+  name: Greptile Query API
+  tags:
+  - Query
+  - Natural Language
+  - Codebase Q&A
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.greptile.com/api-reference/query
+  baseURL: https://api.greptile.com/v2
+  properties:
+  - url: https://docs.greptile.com/quickstart
+    type: Documentation
+  - url: https://docs.greptile.com/api-reference/query
+    type: APIReference
+  - url: openapi/greptile-openapi.yml
+    type: OpenAPI
+  - url: collections/greptile.postman_collection.json
+    type: PostmanCollection
+  - url: collections/greptile.opencollection.json
+    type: OpenCollection
+  - url: review.yml
+    type: Review
+  description: Submit a natural-language question against one or more indexed repositories
+    and receive a synthesized answer plus the relevant source files, functions, and
+    classes. Supports session continuity, an optional higher-accuracy genius mode,
+    and streaming responses.
+- aid: greptile:greptile-repositories-api
+  name: Greptile Repositories (Indexing) API
+  tags:
+  - Repositories
+  - Indexing
+  - Embeddings
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.greptile.com/api-reference/repositories
+  baseURL: https://api.greptile.com/v2
+  properties:
+  - url: https://docs.greptile.com/quickstart
+    type: Documentation
+  - url: https://docs.greptile.com/api-reference/repositories
+    type: APIReference
+  - url: openapi/greptile-openapi.yml
+    type: OpenAPI
+  - url: collections/greptile.postman_collection.json
+    type: PostmanCollection
+  - url: collections/greptile.opencollection.json
+    type: OpenCollection
+  description: Submit a Git repository for indexing and check indexing progress. POST
+    /repositories queues a repo (remote, repository, branch) for processing into a
+    graph and embeddings; GET /repositories/{repositoryId} returns processing status,
+    file counts, and the indexed commit SHA.
+- aid: greptile:greptile-search-api
+  name: Greptile Search API
+  tags:
+  - Search
+  - Code Search
+  - Retrieval
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.greptile.com/api-reference/search
+  baseURL: https://api.greptile.com/v2
+  properties:
+  - url: https://docs.greptile.com/quickstart
+    type: Documentation
+  - url: https://docs.greptile.com/api-reference/search
+    type: APIReference
+  - url: openapi/greptile-openapi.yml
+    type: OpenAPI
+  - url: collections/greptile.postman_collection.json
+    type: PostmanCollection
+  - url: collections/greptile.opencollection.json
+    type: OpenCollection
+  description: Search one or more indexed repositories in natural language and receive
+    just the ranked list of relevant files, functions, and classes - without the synthesized
+    answer returned by the Query API.
+- aid: greptile:greptile-code-review-github-app
+  name: Greptile Code Review (GitHub App)
+  tags:
+  - Code Review
+  - GitHub App
+  - Pull Requests
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.greptile.com/
+  baseURL: https://github.com/apps/greptile
+  properties:
+  - url: https://docs.greptile.com/
+    type: Documentation
+  - url: https://www.greptile.com/pricing
+    type: Plans
+  description: AI code-review product delivered as a GitHub App (also GitLab / Bitbucket).
+    Installed on repositories, it reviews pull requests against full-codebase context,
+    flagging bugs and anti-patterns. Billed per seat with included reviews per seat,
+    distinct from the metered REST API.
+common:
+- type: GitHubOrganization
+  url: https://github.com/greptileai
+- type: LinkedIn
+  url: https://www.linkedin.com/company/greptile
+- type: Website
+  url: https://www.greptile.com
+- type: Documentation
+  url: https://docs.greptile.com
+- type: Plans
+  url: plans/greptile-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/greptile-rate-limits.yml
+- type: FinOps
+  url: finops/greptile-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

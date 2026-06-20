@@ -1,0 +1,65 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Greptile
+providerId: greptile
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- AI
+- Codebase Understanding
+- Code Review
+- Code Search
+- Developer Tools
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Greptile enforces per-account limits on its REST API. Query and search calls
+  are metered and subject to per-account request throttling, and repository
+  indexing is an asynchronous, queued operation bounded by repository size and
+  account tier rather than a fixed per-minute ceiling. Specific numeric limits
+  are not published in the public API reference and are not reconciled in this
+  artifact; verify in the Greptile dashboard or with support.
+notes: >-
+  Public docs do not publish exact RPM/RPD ceilings for query/search; indexing
+  throughput depends on repository size and tier. Confirm concrete values in the
+  dashboard on reconciliation.
+sources:
+- https://docs.greptile.com/quickstart
+- https://docs.greptile.com/api-reference/introduction
+- https://www.greptile.com/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: Query Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-account throttling on POST /query; varies by plan and tier.
+- name: Search Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-account throttling on POST /search; varies by plan and tier.
+- name: Repository Indexing
+  scope: account
+  metric: jobs
+  limit: queued / size-bounded
+  notes: POST /repositories is asynchronous; throughput bounded by repo size and tier, not a fixed RPM.
+- name: Concurrent Indexing Jobs
+  scope: account
+  metric: jobs
+  limit: see provider documentation
+  notes: Number of repositories that can index simultaneously depends on tier.
+policies:
+- name: Tiered Limits
+  description: Limits and concurrency scale with paid and Enterprise plans.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter on 429 responses and honor Retry-After.
+- name: Asynchronous Indexing
+  description: Submit a repository, then poll GET /repositories/{repositoryId} until a sha is present before querying.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

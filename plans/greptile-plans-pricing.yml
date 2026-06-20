@@ -1,0 +1,140 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Greptile
+providerId: greptile
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: true
+tags:
+- AI
+- Codebase Understanding
+- Code Review
+- Code Search
+- Developer Tools
+- Plans
+description: >-
+  Greptile sells two distinct products. The AI code-review GitHub App is priced
+  per seat per month with a bundle of reviews included per seat and overage
+  billed per additional review. The programmatic REST API (query, search,
+  repository indexing) is metered per query, with a higher rate for genius mode.
+  An Enterprise plan adds self-hosting, SSO/SAML, bring-your-own-LLM, and
+  negotiated terms. Free usage is offered to qualified open-source projects and
+  discounts to pre-Series-A startups.
+notes: >-
+  Pricing as published on the Greptile pricing page; the per-review bundle and
+  per-query rates change over time, so verify the live page on reconciliation.
+sources:
+- https://www.greptile.com/pricing
+- https://docs.greptile.com/pricing
+- https://docs.greptile.com/quickstart
+plans:
+- id: greptile-code-review
+  name: Code Review (GitHub App)
+  type: subscription
+  description: >-
+    Per-seat AI code review delivered as a GitHub App. Each seat includes a
+    bundle of reviews per month; additional reviews are billed per review.
+  entries:
+  - label: Code Review Seat
+    name: code_review_seat
+    type: recurring
+    metric: seats
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $30 per seat / month (includes 50 reviews per seat)
+    userMultiplied: true
+  - label: Additional Code Review
+    name: code_review_overage
+    type: usage
+    metric: reviews
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $1 per review beyond the included bundle
+    userMultiplied: false
+  elements:
+  - name: AI Pull Request Review
+  - name: Full-Codebase Context
+  - name: Bug and Anti-Pattern Detection
+- id: greptile-api
+  name: API (Pay-as-you-go)
+  type: usage
+  description: >-
+    Programmatic access to the Query, Search, and Repositories endpoints, metered
+    per query with a higher rate for genius mode.
+  entries:
+  - label: Standard Query
+    name: api_query_standard
+    type: usage
+    metric: queries
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.15 per query
+    userMultiplied: false
+  - label: Genius Query
+    name: api_query_genius
+    type: usage
+    metric: queries
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.45 per query (larger model, complex bug diagnosis)
+    userMultiplied: false
+  elements:
+  - name: Query API
+  - name: Search API
+  - name: Repository Indexing API
+- id: greptile-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom pricing with self-hosting, SSO/SAML, custom DPA, dedicated Slack
+    support, forward-deployed engineers, GitHub Enterprise support, and
+    bring-your-own-LLM. Annual and multi-year discounts available.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Self-Hosting
+  - name: SSO / SAML
+  - name: Bring-Your-Own-LLM
+  - name: GitHub Enterprise Support
+  - name: Forward-Deployed Engineers
+- id: greptile-discounts
+  name: Open Source and Startup Discounts
+  type: usage
+  description: >-
+    Free usage for qualified open-source projects and significant discounts for
+    pre-Series-A startups; eligibility on request.
+  entries:
+  - label: Open Source / Startup
+    name: discount_program
+    type: flat
+    metric: eligibility
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: free or discounted (eligibility on request)
+    userMultiplied: false
+  elements:
+  - name: Open Source Free Tier
+  - name: Pre-Series-A Startup Discount
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

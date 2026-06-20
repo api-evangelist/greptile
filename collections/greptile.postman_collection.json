@@ -1,0 +1,136 @@
+{
+  "info": {
+    "name": "Greptile API",
+    "description": "Greptile REST API v2 - index Git repositories and ask natural-language questions or search over indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token in the X-GitHub-Token header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{greptileApiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.greptile.com/v2"
+    },
+    {
+      "key": "greptileApiKey",
+      "value": ""
+    },
+    {
+      "key": "gitHubToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Repositories",
+      "description": "Submit repositories for indexing and check indexing status.",
+      "item": [
+        {
+          "name": "Submit a repository for indexing",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{greptileApiKey}}" },
+              { "key": "X-GitHub-Token", "value": "{{gitHubToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/repositories",
+              "host": ["{{baseUrl}}"],
+              "path": ["repositories"]
+            },
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"remote\": \"github\",\n  \"repository\": \"greptileai/greptile\",\n  \"branch\": \"main\",\n  \"reload\": false,\n  \"notify\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Get repository indexing status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{greptileApiKey}}" },
+              { "key": "X-GitHub-Token", "value": "{{gitHubToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/repositories/:repositoryId",
+              "host": ["{{baseUrl}}"],
+              "path": ["repositories", ":repositoryId"],
+              "variable": [
+                {
+                  "key": "repositoryId",
+                  "value": "github%3Amain%3Agreptileai%2Fgreptile",
+                  "description": "URL-encoded remote:branch:owner/repository"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Query",
+      "description": "Ask natural-language questions over indexed repositories.",
+      "item": [
+        {
+          "name": "Query repositories",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{greptileApiKey}}" },
+              { "key": "X-GitHub-Token", "value": "{{gitHubToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["query"]
+            },
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"How is authentication handled in this codebase?\"\n    }\n  ],\n  \"repositories\": [\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    }\n  ],\n  \"sessionId\": \"session-abc-123\",\n  \"stream\": false,\n  \"genius\": false\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "description": "Retrieve relevant code locations without a synthesized answer.",
+      "item": [
+        {
+          "name": "Search repositories",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{greptileApiKey}}" },
+              { "key": "X-GitHub-Token", "value": "{{gitHubToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["search"]
+            },
+            "body": {
+              "mode": "raw",
+              "options": { "raw": { "language": "json" } },
+              "raw": "{\n  \"query\": \"where is rate limiting implemented\",\n  \"repositories\": [\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    }\n  ],\n  \"stream\": false\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

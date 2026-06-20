@@ -1,0 +1,72 @@
+aid: greptile
+name: Greptile
+review:
+  question: Does Greptile expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Per API Evangelist scope, HTTP Server-Sent Events (SSE) is in-scope for
+    AsyncAPI modeling. An AsyncAPI 2.6 document was created at
+    asyncapi/greptile-asyncapi.yml describing the streaming response of
+    POST /query (and POST /search) when the request body sets stream=true.
+    No WebSocket surface was modeled because none is documented.
+findings:
+  summary: |
+    Greptile does not publish a documented public WebSocket API. The Greptile
+    platform exposes a REST (HTTPS) API under https://api.greptile.com/v2 with
+    POST /repositories, GET /repositories/{repositoryId}, POST /query, and
+    POST /search. Streaming for /query (and /search) is delivered as HTTP
+    Server-Sent Events (SSE) via the stream:true request parameter; SSE is a
+    one-way HTTP streaming transport and is not WebSocket. The AI code-review
+    product is delivered as a GitHub App (also GitLab/Bitbucket) reacting to
+    pull-request webhooks, not as a customer-facing WebSocket. No realtime,
+    bidirectional WebSocket (ws:// or wss://) endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.greptile.com/v2
+      documented: true
+    - protocol: SSE
+      scheme: https
+      note: Server-Sent Events delivered over the same REST /query (and /search) endpoint when stream=true. Not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Greptile's API reference or quickstart as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.greptile.com/v2/repositories
+    - GET    https://api.greptile.com/v2/repositories/{repositoryId}
+    - POST   https://api.greptile.com/v2/query
+    - POST   https://api.greptile.com/v2/search
+  authentication:
+    - header: Authorization
+      scheme: Bearer
+      value: Greptile API key
+    - header: X-GitHub-Token
+      scheme: apiKey
+      value: Git provider (GitHub) access token used to read repository source
+sources:
+  - url: https://docs.greptile.com/api-reference/introduction
+    type: APIReference
+    note: Lists REST base URL https://api.greptile.com/v2 and Bearer + X-GitHub-Token auth; no WebSocket mentioned.
+  - url: https://docs.greptile.com/quickstart
+    type: Documentation
+    note: Index then query flow over REST; streaming via stream=true (SSE), not WebSocket.
+  - url: https://docs.greptile.com/api-reference/query
+    type: APIReference
+    note: POST /query accepts stream=true delivering Server-Sent Events over HTTPS.
+  - url: https://www.greptile.com/pricing
+    type: Plans
+    note: Per-seat code review (GitHub App) and per-query API pricing; no WebSocket product.
+actions:
+  asyncapiPath: asyncapi/greptile-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Under the API Evangelist scope that
+    allows SSE in AsyncAPI, an AsyncAPI 2.6 document was authored for the
+    /query streaming response, with HTTP+SSE transport documented explicitly
+    throughout (server protocol, channel bindings, info.x-transport-notes) so
+    SSE is never misrepresented as WebSocket.

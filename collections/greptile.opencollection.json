@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Greptile API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{greptileApiKey}}"
+    },
+    "headers": [
+      {
+        "name": "X-GitHub-Token",
+        "value": "{{gitHubToken}}"
+      }
+    ]
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a repository for indexing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greptile.com/v2/repositories",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"remote\": \"github\",\n  \"repository\": \"greptileai/greptile\",\n  \"branch\": \"main\",\n  \"reload\": false,\n  \"notify\": false\n}"
+            }
+          },
+          "docs": "Queues a Git repository for indexing into Greptile's graph and embeddings."
+        },
+        {
+          "info": {
+            "name": "Get repository indexing status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greptile.com/v2/repositories/github%3Amain%3Agreptileai%2Fgreptile"
+          },
+          "docs": "Returns metadata and indexing progress. The repositoryId is URL-encoded remote:branch:owner/repository; a present sha means it is ready to query."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greptile.com/v2/query",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"How is authentication handled in this codebase?\" }\n  ],\n  \"repositories\": [\n    { \"remote\": \"github\", \"repository\": \"greptileai/greptile\", \"branch\": \"main\" }\n  ],\n  \"sessionId\": \"session-abc-123\",\n  \"stream\": false,\n  \"genius\": false\n}"
+            }
+          },
+          "docs": "Returns a synthesized answer plus relevant sources. Set stream=true for SSE; set genius=true for the larger model."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greptile.com/v2/search",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"query\": \"where is rate limiting implemented\",\n  \"repositories\": [\n    { \"remote\": \"github\", \"repository\": \"greptileai/greptile\", \"branch\": \"main\" }\n  ],\n  \"stream\": false\n}"
+            }
+          },
+          "docs": "Returns just the ranked list of relevant files, functions, and classes - without the synthesized answer."
+        }
+      ]
+    }
+  ]
+}

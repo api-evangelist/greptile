@@ -1,0 +1,118 @@
+asyncapi: '2.6.0'
+id: 'urn:com:greptile:v2:query:sse'
+info:
+  title: Greptile Query Streaming (HTTP + SSE)
+  version: '1.0.0'
+  description: |
+    AsyncAPI 2.6 description of Greptile's **query streaming** surface.
+
+    Greptile does not publish a WebSocket API. The only asynchronous /
+    event-style transport documented at https://docs.greptile.com/quickstart and
+    https://docs.greptile.com/api-reference/query is **HTTP Server-Sent Events
+    (SSE)** delivered over the same REST endpoint (`POST /query`) when the
+    request body sets `stream: true`. The `POST /search` endpoint accepts the
+    same `stream` flag. SSE is a one-way, server-to-client HTTP streaming
+    channel; it is **not** WebSocket.
+
+    This AsyncAPI document models only the streamed events emitted by Greptile's
+    SSE response. The request body itself (messages, repositories, sessionId,
+    genius) is modeled in the companion OpenAPI document at
+    `openapi/greptile-openapi.yml`.
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: API documentation - Greptile Terms of Service
+    url: https://www.greptile.com/legal/terms
+  x-transport-notes:
+    transport: HTTP Server-Sent Events (SSE)
+    protocol: https
+    direction: server-to-client (one-way)
+    mediaType: text/event-stream
+    triggeredBy: 'POST https://api.greptile.com/v2/query with request body { "stream": true }'
+servers:
+  production:
+    url: api.greptile.com
+    protocol: https
+    description: >-
+      Greptile REST API host. The streaming channel is the SSE response of
+      POST /v2/query (and POST /v2/search) when stream=true. This is HTTP SSE,
+      not WebSocket.
+    security:
+      - bearerAuth: []
+        gitHubToken: []
+channels:
+  /v2/query:
+    description: >-
+      Server-Sent Events stream returned by POST /v2/query when stream=true.
+      Chunks carry incremental answer text and source references.
+    bindings:
+      http:
+        type: response
+        method: POST
+        bindingVersion: '0.2.0'
+    subscribe:
+      operationId: receiveQueryStream
+      summary: Receive streamed answer and source chunks.
+      bindings:
+        http:
+          bindingVersion: '0.2.0'
+      message:
+        $ref: '#/components/messages/QueryStreamChunk'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Greptile API key as Authorization Bearer token.
+    gitHubToken:
+      type: httpApiKey
+      in: header
+      name: X-GitHub-Token
+      description: Git provider (GitHub) access token used to read repository source.
+  messages:
+    QueryStreamChunk:
+      name: queryStreamChunk
+      title: Query Stream Chunk
+      summary: >-
+        A single data-only Server-Sent Event chunk in the streamed query
+        response. Chunks incrementally deliver answer text and source
+        references; the stream terminates per the SSE protocol.
+      contentType: text/event-stream
+      payload:
+        type: object
+        properties:
+          type:
+            type: string
+            description: Chunk type discriminator.
+            enum:
+              - message
+              - sources
+              - status
+            example: message
+          message:
+            type: string
+            description: Incremental answer text (present on message chunks).
+          sources:
+            type: array
+            description: Source references (present on sources chunks).
+            items:
+              type: object
+              properties:
+                repository:
+                  type: string
+                remote:
+                  type: string
+                branch:
+                  type: string
+                filepath:
+                  type: string
+                linestart:
+                  type: integer
+                  nullable: true
+                lineend:
+                  type: integer
+                  nullable: true
+                summary:
+                  type: string
