@@ -109,6 +109,14 @@ apis:
     flagging bugs and anti-patterns. Billed per seat with included reviews per seat,
     distinct from the metered REST API.
 common:
+- type: TrustCenter
+  url: security/greptile-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/greptile-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/greptile-domain-security.yml
+- type: Authentication
+  url: authentication/greptile-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/greptileai
 - type: LinkedIn
@@ -123,6 +131,8 @@ common:
   url: rate-limits/greptile-rate-limits.yml
 - type: FinOps
   url: finops/greptile-finops.yml
+- url: https://www.greptile.com/blog
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

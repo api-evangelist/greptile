@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/greptile-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Greptile API key supplied as `Authorization: Bearer <GREPTILE_API_KEY>`.'
+  sources:
+  - openapi/greptile-openapi.yml
+- name: gitHubToken
+  type: apiKey
+  in: header
+  parameter: X-GitHub-Token
+  description: Git provider access token (a GitHub personal access token for GitHub remotes)
+    Greptile uses to read repository source code.
+  sources:
+  - openapi/greptile-openapi.yml
