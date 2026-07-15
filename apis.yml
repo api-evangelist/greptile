@@ -109,6 +109,8 @@ apis:
     flagging bugs and anti-patterns. Billed per seat with included reviews per seat,
     distinct from the metered REST API.
 common:
+- type: AgenticAccess
+  url: agentic-access/greptile-agentic-access.yml
 - type: TrustCenter
   url: security/greptile-trust-center.yml
 - type: VulnerabilityDisclosure
