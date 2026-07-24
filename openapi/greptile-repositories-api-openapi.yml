@@ -1,0 +1,165 @@
+openapi: 3.0.1
+info:
+  title: Greptile Query Repositories API
+  description: Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.
+  termsOfService: https://www.greptile.com/legal/terms
+  contact:
+    name: Greptile Support
+    url: https://docs.greptile.com
+    email: support@greptile.com
+  version: '2.0'
+servers:
+- url: https://api.greptile.com/v2
+  description: Greptile API v2
+security:
+- bearerAuth: []
+  gitHubToken: []
+tags:
+- name: Repositories
+  description: Submit repositories for indexing and check indexing status.
+paths:
+  /repositories:
+    post:
+      operationId: indexRepository
+      tags:
+      - Repositories
+      summary: Submit a repository for indexing
+      description: Queues a Git repository (identified by remote, repository, and branch) for processing into Greptile's graph and embeddings. Indexing is asynchronous; poll GET /repositories/{repositoryId} until a sha is present, which indicates the repository is ready to be queried.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IndexRepositoryRequest'
+      responses:
+        '200':
+          description: Repository accepted for indexing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndexRepositoryResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /repositories/{repositoryId}:
+    get:
+      operationId: getRepository
+      tags:
+      - Repositories
+      summary: Get repository indexing status
+      description: Returns metadata and indexing progress for a previously submitted repository. The repositoryId is the URL-encoded composite identifier in the form remote:branch:owner/repository (for example github%3Amain%3Agreptileai%2Fgreptile).
+      parameters:
+      - name: repositoryId
+        in: path
+        required: true
+        description: URL-encoded repository identifier in the form remote:branch:owner/repository.
+        schema:
+          type: string
+        example: github%3Amain%3Apandas-dev%2Fpandas
+      responses:
+        '200':
+          description: Repository metadata and indexing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Repository'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Repository not found or not yet submitted.
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Repository:
+      type: object
+      properties:
+        repository:
+          type: string
+          example: pandas-dev/pandas
+        remote:
+          type: string
+          example: github
+        branch:
+          type: string
+          example: main
+        private:
+          type: boolean
+          example: false
+        status:
+          type: string
+          description: Indexing lifecycle state.
+          enum:
+          - submitted
+          - cloning
+          - processing
+          - completed
+          - failed
+          example: completed
+        filesProcessed:
+          type: integer
+          example: 26083
+        numFiles:
+          type: integer
+          example: 26083
+        sha:
+          type: string
+          description: Indexed commit SHA. When present, the repository is ready to query.
+          example: 89b286a699b2d023b7a1ebc468abf230d84ad547
+    IndexRepositoryRequest:
+      type: object
+      required:
+      - remote
+      - repository
+      properties:
+        remote:
+          type: string
+          enum:
+          - github
+          - gitlab
+          example: github
+        repository:
+          type: string
+          example: greptileai/greptile
+        branch:
+          type: string
+          example: main
+        reload:
+          type: boolean
+          description: If true, re-process the repository even if it was already indexed (picks up new commits).
+          default: false
+        notify:
+          type: boolean
+          description: If true, email the account owner when indexing completes.
+          default: false
+    IndexRepositoryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: started repo processing
+        statusEndpoint:
+          type: string
+          description: URL to poll for indexing status.
+          example: https://api.greptile.com/v2/repositories/github%3Amain%3Agreptileai%2Fgreptile
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Greptile API key supplied as `Authorization: Bearer <GREPTILE_API_KEY>`.'
+    gitHubToken:
+      type: apiKey
+      in: header
+      name: X-GitHub-Token
+      description: Git provider access token (a GitHub personal access token for GitHub remotes) Greptile uses to read repository source code.

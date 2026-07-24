@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: Greptile Query Search API
+  description: Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.
+  termsOfService: https://www.greptile.com/legal/terms
+  contact:
+    name: Greptile Support
+    url: https://docs.greptile.com
+    email: support@greptile.com
+  version: '2.0'
+servers:
+- url: https://api.greptile.com/v2
+  description: Greptile API v2
+security:
+- bearerAuth: []
+  gitHubToken: []
+tags:
+- name: Search
+  description: Retrieve relevant code locations without a synthesized answer.
+paths:
+  /search:
+    post:
+      operationId: searchRepositories
+      tags:
+      - Search
+      summary: Search repositories in natural language
+      description: Searches one or more indexed repositories in natural language and returns just the ranked list of relevant files, functions, and classes, without the synthesized answer produced by /query.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Ranked list of relevant source locations.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Source'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    RepositoryRef:
+      type: object
+      description: Reference to a specific repository and branch on a Git remote.
+      required:
+      - remote
+      - repository
+      properties:
+        remote:
+          type: string
+          description: The Git host the repository lives on.
+          enum:
+          - github
+          - gitlab
+          example: github
+        repository:
+          type: string
+          description: Repository in owner/name form.
+          example: greptileai/greptile
+        branch:
+          type: string
+          description: Branch to index or query. Defaults to the repository default branch.
+          example: main
+    Source:
+      type: object
+      description: A relevant source location returned by query or search.
+      properties:
+        repository:
+          type: string
+          example: greptileai/greptile
+        remote:
+          type: string
+          example: github
+        branch:
+          type: string
+          example: main
+        filepath:
+          type: string
+          example: src/auth/middleware.ts
+        linestart:
+          type: integer
+          nullable: true
+          example: 42
+        lineend:
+          type: integer
+          nullable: true
+          example: 88
+        summary:
+          type: string
+          description: Summary of the file's contents and relevance.
+    SearchRequest:
+      type: object
+      required:
+      - query
+      - repositories
+      properties:
+        query:
+          type: string
+          example: where is rate limiting implemented
+        repositories:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryRef'
+        sessionId:
+          type: string
+        stream:
+          type: boolean
+          default: false
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Greptile API key supplied as `Authorization: Bearer <GREPTILE_API_KEY>`.'
+    gitHubToken:
+      type: apiKey
+      in: header
+      name: X-GitHub-Token
+      description: Git provider access token (a GitHub personal access token for GitHub remotes) Greptile uses to read repository source code.

@@ -1,0 +1,177 @@
+openapi: 3.0.1
+info:
+  title: Greptile Query API
+  description: Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.
+  termsOfService: https://www.greptile.com/legal/terms
+  contact:
+    name: Greptile Support
+    url: https://docs.greptile.com
+    email: support@greptile.com
+  version: '2.0'
+servers:
+- url: https://api.greptile.com/v2
+  description: Greptile API v2
+security:
+- bearerAuth: []
+  gitHubToken: []
+tags:
+- name: Query
+  description: Ask natural-language questions over indexed repositories.
+paths:
+  /query:
+    post:
+      operationId: queryRepositories
+      tags:
+      - Query
+      summary: Query repositories in natural language
+      description: Submits a natural-language question against one or more indexed repositories and returns a synthesized answer plus the source files, functions, and classes used to construct it. Set stream to true to receive the answer incrementally as Server-Sent Events. Set genius to true to use a larger, more accurate model better suited to complex bug diagnosis (billed at a higher per-query rate).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: A synthesized answer and supporting sources. When stream is true the response is a text/event-stream of incremental message and source chunks instead of a single JSON object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+            text/event-stream:
+              schema:
+                type: string
+                description: Server-Sent Events stream of message and sources chunks.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Message:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+          enum:
+          - user
+          - assistant
+          - system
+          example: user
+        content:
+          type: string
+          example: How is authentication handled in this codebase?
+    QueryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The synthesized natural-language answer.
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+    RepositoryRef:
+      type: object
+      description: Reference to a specific repository and branch on a Git remote.
+      required:
+      - remote
+      - repository
+      properties:
+        remote:
+          type: string
+          description: The Git host the repository lives on.
+          enum:
+          - github
+          - gitlab
+          example: github
+        repository:
+          type: string
+          description: Repository in owner/name form.
+          example: greptileai/greptile
+        branch:
+          type: string
+          description: Branch to index or query. Defaults to the repository default branch.
+          example: main
+    QueryRequest:
+      type: object
+      required:
+      - messages
+      - repositories
+      properties:
+        messages:
+          type: array
+          description: Conversation history. For a single question this can contain one user message.
+          items:
+            $ref: '#/components/schemas/Message'
+        repositories:
+          type: array
+          description: One or more indexed repositories to query against.
+          items:
+            $ref: '#/components/schemas/RepositoryRef'
+        sessionId:
+          type: string
+          description: Opaque session identifier to maintain conversational context across multiple queries.
+          example: session-abc-123
+        stream:
+          type: boolean
+          description: Stream the answer as Server-Sent Events.
+          default: false
+        genius:
+          type: boolean
+          description: Use a larger, higher-accuracy model. Improves complex reasoning and bug diagnosis at a higher per-query cost.
+          default: false
+    Source:
+      type: object
+      description: A relevant source location returned by query or search.
+      properties:
+        repository:
+          type: string
+          example: greptileai/greptile
+        remote:
+          type: string
+          example: github
+        branch:
+          type: string
+          example: main
+        filepath:
+          type: string
+          example: src/auth/middleware.ts
+        linestart:
+          type: integer
+          nullable: true
+          example: 42
+        lineend:
+          type: integer
+          nullable: true
+          example: 88
+        summary:
+          type: string
+          description: Summary of the file's contents and relevance.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Greptile API key supplied as `Authorization: Bearer <GREPTILE_API_KEY>`.'
+    gitHubToken:
+      type: apiKey
+      in: header
+      name: X-GitHub-Token
+      description: Git provider access token (a GitHub personal access token for GitHub remotes) Greptile uses to read repository source code.
