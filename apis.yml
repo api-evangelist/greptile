@@ -6,7 +6,20 @@ description: Greptile builds an AI layer that understands entire codebases. Its 
   REST API indexes Git repositories into a graph plus embeddings, then answers natural-language
   questions and searches over that code. Greptile also ships an AI code-review product
   delivered as a GitHub App that reviews pull requests for bugs and anti-patterns.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/greptile.png
 tags:
 - AI
 - Codebase Understanding
@@ -17,79 +30,6 @@ created: '2026-06-20'
 modified: '2026-06-20'
 specificationVersion: '0.19'
 apis:
-- aid: greptile:greptile-query-api
-  name: Greptile Query API
-  tags:
-  - Query
-  - Natural Language
-  - Codebase Q&A
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.greptile.com/api-reference/query
-  baseURL: https://api.greptile.com/v2
-  properties:
-  - url: https://docs.greptile.com/quickstart
-    type: Documentation
-  - url: https://docs.greptile.com/api-reference/query
-    type: APIReference
-  - url: openapi/greptile-openapi.yml
-    type: OpenAPI
-  - url: collections/greptile.postman_collection.json
-    type: PostmanCollection
-  - url: collections/greptile.opencollection.json
-    type: OpenCollection
-  - url: review.yml
-    type: Review
-  description: Submit a natural-language question against one or more indexed repositories
-    and receive a synthesized answer plus the relevant source files, functions, and
-    classes. Supports session continuity, an optional higher-accuracy genius mode,
-    and streaming responses.
-- aid: greptile:greptile-repositories-api
-  name: Greptile Repositories (Indexing) API
-  tags:
-  - Repositories
-  - Indexing
-  - Embeddings
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.greptile.com/api-reference/repositories
-  baseURL: https://api.greptile.com/v2
-  properties:
-  - url: https://docs.greptile.com/quickstart
-    type: Documentation
-  - url: https://docs.greptile.com/api-reference/repositories
-    type: APIReference
-  - url: openapi/greptile-openapi.yml
-    type: OpenAPI
-  - url: collections/greptile.postman_collection.json
-    type: PostmanCollection
-  - url: collections/greptile.opencollection.json
-    type: OpenCollection
-  description: Submit a Git repository for indexing and check indexing progress. POST
-    /repositories queues a repo (remote, repository, branch) for processing into a
-    graph and embeddings; GET /repositories/{repositoryId} returns processing status,
-    file counts, and the indexed commit SHA.
-- aid: greptile:greptile-search-api
-  name: Greptile Search API
-  tags:
-  - Search
-  - Code Search
-  - Retrieval
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.greptile.com/api-reference/search
-  baseURL: https://api.greptile.com/v2
-  properties:
-  - url: https://docs.greptile.com/quickstart
-    type: Documentation
-  - url: https://docs.greptile.com/api-reference/search
-    type: APIReference
-  - url: openapi/greptile-openapi.yml
-    type: OpenAPI
-  - url: collections/greptile.postman_collection.json
-    type: PostmanCollection
-  - url: collections/greptile.opencollection.json
-    type: OpenCollection
-  description: Search one or more indexed repositories in natural language and receive
-    just the ranked list of relevant files, functions, and classes - without the synthesized
-    answer returned by the Query API.
 - aid: greptile:greptile-code-review-github-app
   name: Greptile Code Review (GitHub App)
   tags:
@@ -104,10 +44,82 @@ apis:
     type: Documentation
   - url: https://www.greptile.com/pricing
     type: Plans
-  description: AI code-review product delivered as a GitHub App (also GitLab / Bitbucket).
-    Installed on repositories, it reviews pull requests against full-codebase context,
-    flagging bugs and anti-patterns. Billed per seat with included reviews per seat,
-    distinct from the metered REST API.
+  description: >-
+    AI code-review product delivered as a GitHub App (also GitLab / Bitbucket). Installed on repositories,
+    it reviews pull requests against full-codebase context, flagging bugs and anti-patterns. Billed per
+    seat with included reviews per seat, distinct from the metered REST API.
+- aid: greptile:greptile-query-api
+  name: Greptile Query API
+  description: Ask natural-language questions over indexed repositories.
+  humanURL: https://docs.greptile.com/api-reference/query
+  baseURL: https://api.greptile.com/v2
+  tags:
+  - Query
+  properties:
+  - type: OpenAPI
+    url: openapi/greptile-query-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greptile.com/quickstart
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/query
+  - type: PostmanCollection
+    url: collections/greptile.postman_collection.json
+  - type: OpenCollection
+    url: collections/greptile.opencollection.json
+  - type: Review
+    url: review.yml
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/repositories
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/search
+- aid: greptile:greptile-repositories-api
+  name: Greptile Repositories API
+  description: Submit repositories for indexing and check indexing status.
+  humanURL: https://docs.greptile.com/api-reference/query
+  baseURL: https://api.greptile.com/v2
+  tags:
+  - Repositories
+  properties:
+  - type: OpenAPI
+    url: openapi/greptile-repositories-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greptile.com/quickstart
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/query
+  - type: PostmanCollection
+    url: collections/greptile.postman_collection.json
+  - type: OpenCollection
+    url: collections/greptile.opencollection.json
+  - type: Review
+    url: review.yml
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/repositories
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/search
+- aid: greptile:greptile-search-api
+  name: Greptile Search API
+  description: Retrieve relevant code locations without a synthesized answer.
+  humanURL: https://docs.greptile.com/api-reference/query
+  baseURL: https://api.greptile.com/v2
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/greptile-search-api-openapi.yml
+  - type: Documentation
+    url: https://docs.greptile.com/quickstart
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/query
+  - type: PostmanCollection
+    url: collections/greptile.postman_collection.json
+  - type: OpenCollection
+    url: collections/greptile.opencollection.json
+  - type: Review
+    url: review.yml
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/repositories
+  - type: APIReference
+    url: https://docs.greptile.com/api-reference/search
 common:
 - type: AgenticAccess
   url: agentic-access/greptile-agentic-access.yml
