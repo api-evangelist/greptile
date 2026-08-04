@@ -1,0 +1,18 @@
+{
+  "provider": "greptile",
+  "sources": [
+    "greptile-query-api-openapi.yml",
+    "greptile-repositories-api-openapi.yml",
+    "greptile-search-api-openapi.yml"
+  ],
+  "outputs": [
+    "greptile-query-api-openapi.yml",
+    "greptile-repositories-api-openapi.yml",
+    "greptile-search-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
