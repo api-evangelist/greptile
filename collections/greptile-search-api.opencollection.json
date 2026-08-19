@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Greptile Query Search API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search repositories in natural language",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greptile.com/v2/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches one or more indexed repositories in natural language and returns just the ranked list of relevant files, functions, and classes, without the synthesized answer produced by /query."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

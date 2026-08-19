@@ -1,0 +1,191 @@
+{
+  "item": [
+    {
+      "id": "fcb9e243-559f-4120-b9cf-3cbfebb0682c",
+      "name": "Search",
+      "description": {
+        "content": "Retrieve relevant code locations without a synthesized answer.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ac3ef964-3ef5-4e0a-bbe6-ec1d61af99ea",
+          "name": "Search repositories in natural language",
+          "request": {
+            "name": "Search repositories in natural language",
+            "description": {
+              "content": "Searches one or more indexed repositories in natural language and returns just the ranked list of relevant files, functions, and classes, without the synthesized answer produced by /query.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"repositories\": [\n    {\n      \"remote\": \"<string>\",\n      \"repository\": \"<string>\",\n      \"branch\": \"<string>\"\n    },\n    {\n      \"remote\": \"<string>\",\n      \"repository\": \"<string>\",\n      \"branch\": \"<string>\"\n    }\n  ],\n  \"sessionId\": \"<string>\",\n  \"stream\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6f48aacf-8886-486f-b366-753380b48651",
+              "name": "Ranked list of relevant source locations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"where is rate limiting implemented\",\n  \"repositories\": [\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    },\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    }\n  ],\n  \"sessionId\": \"<string>\",\n  \"stream\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"repository\": \"greptileai/greptile\",\n    \"remote\": \"github\",\n    \"branch\": \"main\",\n    \"filepath\": \"src/auth/middleware.ts\",\n    \"linestart\": 42,\n    \"lineend\": 88,\n    \"summary\": \"string\"\n  },\n  {\n    \"repository\": \"greptileai/greptile\",\n    \"remote\": \"github\",\n    \"branch\": \"main\",\n    \"filepath\": \"src/auth/middleware.ts\",\n    \"linestart\": 42,\n    \"lineend\": 88,\n    \"summary\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48cbf0d8-7435-4df6-9e4e-b9a475e6c545",
+              "name": "Missing or invalid Greptile API key or Git provider token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"where is rate limiting implemented\",\n  \"repositories\": [\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    },\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    }\n  ],\n  \"sessionId\": \"<string>\",\n  \"stream\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greptile.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3223f9c2-7289-4be9-9de4-e422412ddce6",
+    "name": "Greptile Query Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.\n\nContact Support:\n Name: Greptile Support\n Email: support@greptile.com",
+      "type": "text/plain"
+    }
+  }
+}

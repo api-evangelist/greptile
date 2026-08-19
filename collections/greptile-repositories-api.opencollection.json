@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Greptile Query Repositories API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a repository for indexing",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greptile.com/v2/repositories",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Queues a Git repository (identified by remote, repository, and branch) for processing into Greptile's graph and embeddings. Indexing is asynchronous; poll GET /repositories/{repositoryId} until a sha is present, which indicates the repository is ready to be queried."
+        },
+        {
+          "info": {
+            "name": "Get repository indexing status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.greptile.com/v2/repositories/:repositoryId",
+            "params": [
+              {
+                "name": "repositoryId",
+                "value": "github%3Amain%3Apandas-dev%2Fpandas",
+                "type": "path",
+                "description": "URL-encoded repository identifier in the form remote:branch:owner/repository."
+              }
+            ]
+          },
+          "docs": "Returns metadata and indexing progress for a previously submitted repository. The repositoryId is the URL-encoded composite identifier in the form remote:branch:owner/repository (for example github%3Amain%3Agreptileai%2Fgreptile)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

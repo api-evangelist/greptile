@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Greptile Query API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query repositories in natural language",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.greptile.com/v2/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits a natural-language question against one or more indexed repositories and returns a synthesized answer plus the source files, functions, and classes used to construct it. Set stream to true to receive the answer incrementally as Server-Sent Events. Set genius to true to use a larger, more accurate model better suited to complex bug diagnosis (billed at a higher per-query rate)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,191 @@
+{
+  "item": [
+    {
+      "id": "78af8f57-f9d7-4811-ba4b-9cb2e03782a0",
+      "name": "Query",
+      "description": {
+        "content": "Ask natural-language questions over indexed repositories.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9ac91d6b-e16b-42dc-b09e-e2de0fe44531",
+          "name": "Query repositories in natural language",
+          "request": {
+            "name": "Query repositories in natural language",
+            "description": {
+              "content": "Submits a natural-language question against one or more indexed repositories and returns a synthesized answer plus the source files, functions, and classes used to construct it. Set stream to true to receive the answer incrementally as Server-Sent Events. Set genius to true to use a larger, more accurate model better suited to complex bug diagnosis (billed at a higher per-query rate).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"repositories\": [\n    {\n      \"remote\": \"<string>\",\n      \"repository\": \"<string>\",\n      \"branch\": \"<string>\"\n    },\n    {\n      \"remote\": \"<string>\",\n      \"repository\": \"<string>\",\n      \"branch\": \"<string>\"\n    }\n  ],\n  \"sessionId\": \"<string>\",\n  \"stream\": false,\n  \"genius\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9fe57518-39c6-407a-9597-8195976a872b",
+              "name": "A synthesized answer and supporting sources. When stream is true the response is a text/event-stream of incremental message and source chunks instead of a single JSON object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"How is authentication handled in this codebase?\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"How is authentication handled in this codebase?\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"repositories\": [\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    },\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    }\n  ],\n  \"sessionId\": \"session-abc-123\",\n  \"stream\": false,\n  \"genius\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"sources\": [\n    {\n      \"repository\": \"greptileai/greptile\",\n      \"remote\": \"github\",\n      \"branch\": \"main\",\n      \"filepath\": \"src/auth/middleware.ts\",\n      \"linestart\": 42,\n      \"lineend\": 88,\n      \"summary\": \"string\"\n    },\n    {\n      \"repository\": \"greptileai/greptile\",\n      \"remote\": \"github\",\n      \"branch\": \"main\",\n      \"filepath\": \"src/auth/middleware.ts\",\n      \"linestart\": 42,\n      \"lineend\": 88,\n      \"summary\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e5c1e18-b43d-4974-8982-e664ae0fe570",
+              "name": "Missing or invalid Greptile API key or Git provider token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"How is authentication handled in this codebase?\",\n      \"id\": \"<string>\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"How is authentication handled in this codebase?\",\n      \"id\": \"<string>\"\n    }\n  ],\n  \"repositories\": [\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    },\n    {\n      \"remote\": \"github\",\n      \"repository\": \"greptileai/greptile\",\n      \"branch\": \"main\"\n    }\n  ],\n  \"sessionId\": \"session-abc-123\",\n  \"stream\": false,\n  \"genius\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.greptile.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b501568f-fc91-41c5-be00-ca8d716c3708",
+    "name": "Greptile Query API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.\n\nContact Support:\n Name: Greptile Support\n Email: support@greptile.com",
+      "type": "text/plain"
+    }
+  }
+}
