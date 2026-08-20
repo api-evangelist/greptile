@@ -21,6 +21,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/greptile.png
 tags:
+- Artificial Intelligence
+- Codebase Understanding
+- Code Review
+- Code Search
+- Developer Tools
+tags_raw:
 - AI
 - Codebase Understanding
 - Code Review
