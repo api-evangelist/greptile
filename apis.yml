@@ -6,6 +6,18 @@ description: Greptile builds an AI layer that understands entire codebases. Its 
   REST API indexes Git repositories into a graph plus embeddings, then answers natural-language
   questions and searches over that code. Greptile also ships an AI code-review product
   delivered as a GitHub App that reviews pull requests for bugs and anti-patterns.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
