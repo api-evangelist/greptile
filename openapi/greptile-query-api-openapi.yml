@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Greptile Query API
   description: Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.
@@ -46,34 +46,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Message:
-      type: object
-      required:
-      - role
-      - content
-      properties:
-        id:
-          type: string
-        role:
-          type: string
-          enum:
-          - user
-          - assistant
-          - system
-          example: user
-        content:
-          type: string
-          example: How is authentication handled in this codebase?
-    QueryResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: The synthesized natural-language answer.
-        sources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Source'
     RepositoryRef:
       type: object
       description: Reference to a specific repository and branch on a Git remote.
@@ -124,6 +96,41 @@ components:
           type: boolean
           description: Use a larger, higher-accuracy model. Improves complex reasoning and bug diagnosis at a higher per-query cost.
           default: false
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Message:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+          enum:
+          - user
+          - assistant
+          - system
+          example: user
+        content:
+          type: string
+          example: How is authentication handled in this codebase?
+    QueryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The synthesized natural-language answer.
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
     Source:
       type: object
       description: A relevant source location returned by query or search.
@@ -141,23 +148,18 @@ components:
           type: string
           example: src/auth/middleware.ts
         linestart:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           example: 42
         lineend:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           example: 88
         summary:
           type: string
           description: Summary of the file's contents and relevance.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid Greptile API key or Git provider token.

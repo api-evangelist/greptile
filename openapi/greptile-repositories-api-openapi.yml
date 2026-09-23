@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Greptile Query Repositories API
+  title: Greptile Repositories API
   description: Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.
   termsOfService: https://www.greptile.com/legal/terms
   contact:
@@ -136,6 +136,13 @@ components:
           type: boolean
           description: If true, email the account owner when indexing completes.
           default: false
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     IndexRepositoryResponse:
       type: object
       properties:
@@ -146,13 +153,6 @@ components:
           type: string
           description: URL to poll for indexing status.
           example: https://api.greptile.com/v2/repositories/github%3Amain%3Agreptileai%2Fgreptile
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

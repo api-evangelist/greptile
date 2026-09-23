@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Greptile Query Search API
+  title: Greptile Search API
   description: Specification of the Greptile API. Greptile indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that indexed code. Authentication requires a Greptile API key as a Bearer token plus a Git provider token (for GitHub, a GitHub personal access token) supplied in the X-GitHub-Token header so Greptile can read the source.
   termsOfService: https://www.greptile.com/legal/terms
   contact:
@@ -43,13 +43,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid Greptile API key or Git provider token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     RepositoryRef:
       type: object
@@ -73,33 +66,6 @@ components:
           type: string
           description: Branch to index or query. Defaults to the repository default branch.
           example: main
-    Source:
-      type: object
-      description: A relevant source location returned by query or search.
-      properties:
-        repository:
-          type: string
-          example: greptileai/greptile
-        remote:
-          type: string
-          example: github
-        branch:
-          type: string
-          example: main
-        filepath:
-          type: string
-          example: src/auth/middleware.ts
-        linestart:
-          type: integer
-          nullable: true
-          example: 42
-        lineend:
-          type: integer
-          nullable: true
-          example: 88
-        summary:
-          type: string
-          description: Summary of the file's contents and relevance.
     SearchRequest:
       type: object
       required:
@@ -125,6 +91,42 @@ components:
           type: string
         message:
           type: string
+    Source:
+      type: object
+      description: A relevant source location returned by query or search.
+      properties:
+        repository:
+          type: string
+          example: greptileai/greptile
+        remote:
+          type: string
+          example: github
+        branch:
+          type: string
+          example: main
+        filepath:
+          type: string
+          example: src/auth/middleware.ts
+        linestart:
+          type:
+          - integer
+          - 'null'
+          example: 42
+        lineend:
+          type:
+          - integer
+          - 'null'
+          example: 88
+        summary:
+          type: string
+          description: Summary of the file's contents and relevance.
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
