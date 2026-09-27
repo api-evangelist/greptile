@@ -45,6 +45,13 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     RepositoryRef:
       type: object
@@ -160,13 +167,6 @@ components:
         summary:
           type: string
           description: Summary of the file's contents and relevance.
-  responses:
-    Unauthorized:
-      description: Missing or invalid Greptile API key or Git provider token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
