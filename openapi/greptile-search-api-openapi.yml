@@ -51,6 +51,35 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Source:
+      type: object
+      description: A relevant source location returned by query or search.
+      properties:
+        repository:
+          type: string
+          example: greptileai/greptile
+        remote:
+          type: string
+          example: github
+        branch:
+          type: string
+          example: main
+        filepath:
+          type: string
+          example: src/auth/middleware.ts
+        linestart:
+          type:
+          - integer
+          - 'null'
+          example: 42
+        lineend:
+          type:
+          - integer
+          - 'null'
+          example: 88
+        summary:
+          type: string
+          description: Summary of the file's contents and relevance.
     RepositoryRef:
       type: object
       description: Reference to a specific repository and branch on a Git remote.
@@ -98,35 +127,6 @@ components:
         stream:
           type: boolean
           default: false
-    Source:
-      type: object
-      description: A relevant source location returned by query or search.
-      properties:
-        repository:
-          type: string
-          example: greptileai/greptile
-        remote:
-          type: string
-          example: github
-        branch:
-          type: string
-          example: main
-        filepath:
-          type: string
-          example: src/auth/middleware.ts
-        linestart:
-          type:
-          - integer
-          - 'null'
-          example: 42
-        lineend:
-          type:
-          - integer
-          - 'null'
-          example: 88
-        summary:
-          type: string
-          description: Summary of the file's contents and relevance.
   securitySchemes:
     bearerAuth:
       type: http

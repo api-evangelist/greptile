@@ -67,33 +67,24 @@ paths:
         '404':
           description: Repository not found or not yet submitted.
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    IndexRepositoryRequest:
+    IndexRepositoryResponse:
       type: object
-      required:
-      - remote
-      - repository
       properties:
-        remote:
+        message:
           type: string
-          enum:
-          - github
-          - gitlab
-          example: github
-        repository:
+          example: started repo processing
+        statusEndpoint:
           type: string
-          example: greptileai/greptile
-        branch:
-          type: string
-          example: main
-        reload:
-          type: boolean
-          description: If true, re-process the repository even if it was already indexed (picks up new commits).
-          default: false
-        notify:
-          type: boolean
-          description: If true, email the account owner when indexing completes.
-          default: false
+          description: URL to poll for indexing status.
+          example: https://api.greptile.com/v2/repositories/github%3Amain%3Agreptileai%2Fgreptile
     Repository:
       type: object
       properties:
@@ -136,23 +127,32 @@ components:
           type: string
         message:
           type: string
-    IndexRepositoryResponse:
+    IndexRepositoryRequest:
       type: object
+      required:
+      - remote
+      - repository
       properties:
-        message:
+        remote:
           type: string
-          example: started repo processing
-        statusEndpoint:
+          enum:
+          - github
+          - gitlab
+          example: github
+        repository:
           type: string
-          description: URL to poll for indexing status.
-          example: https://api.greptile.com/v2/repositories/github%3Amain%3Agreptileai%2Fgreptile
-  responses:
-    Unauthorized:
-      description: Missing or invalid Greptile API key or Git provider token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          example: greptileai/greptile
+        branch:
+          type: string
+          example: main
+        reload:
+          type: boolean
+          description: If true, re-process the repository even if it was already indexed (picks up new commits).
+          default: false
+        notify:
+          type: boolean
+          description: If true, email the account owner when indexing completes.
+          default: false
   securitySchemes:
     bearerAuth:
       type: http

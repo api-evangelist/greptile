@@ -45,71 +45,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid Greptile API key or Git provider token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    RepositoryRef:
-      type: object
-      description: Reference to a specific repository and branch on a Git remote.
-      required:
-      - remote
-      - repository
-      properties:
-        remote:
-          type: string
-          description: The Git host the repository lives on.
-          enum:
-          - github
-          - gitlab
-          example: github
-        repository:
-          type: string
-          description: Repository in owner/name form.
-          example: greptileai/greptile
-        branch:
-          type: string
-          description: Branch to index or query. Defaults to the repository default branch.
-          example: main
-    QueryRequest:
-      type: object
-      required:
-      - messages
-      - repositories
-      properties:
-        messages:
-          type: array
-          description: Conversation history. For a single question this can contain one user message.
-          items:
-            $ref: '#/components/schemas/Message'
-        repositories:
-          type: array
-          description: One or more indexed repositories to query against.
-          items:
-            $ref: '#/components/schemas/RepositoryRef'
-        sessionId:
-          type: string
-          description: Opaque session identifier to maintain conversational context across multiple queries.
-          example: session-abc-123
-        stream:
-          type: boolean
-          description: Stream the answer as Server-Sent Events.
-          default: false
-        genius:
-          type: boolean
-          description: Use a larger, higher-accuracy model. Improves complex reasoning and bug diagnosis at a higher per-query cost.
-          default: false
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     Message:
       type: object
       required:
@@ -167,6 +103,70 @@ components:
         summary:
           type: string
           description: Summary of the file's contents and relevance.
+    RepositoryRef:
+      type: object
+      description: Reference to a specific repository and branch on a Git remote.
+      required:
+      - remote
+      - repository
+      properties:
+        remote:
+          type: string
+          description: The Git host the repository lives on.
+          enum:
+          - github
+          - gitlab
+          example: github
+        repository:
+          type: string
+          description: Repository in owner/name form.
+          example: greptileai/greptile
+        branch:
+          type: string
+          description: Branch to index or query. Defaults to the repository default branch.
+          example: main
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    QueryRequest:
+      type: object
+      required:
+      - messages
+      - repositories
+      properties:
+        messages:
+          type: array
+          description: Conversation history. For a single question this can contain one user message.
+          items:
+            $ref: '#/components/schemas/Message'
+        repositories:
+          type: array
+          description: One or more indexed repositories to query against.
+          items:
+            $ref: '#/components/schemas/RepositoryRef'
+        sessionId:
+          type: string
+          description: Opaque session identifier to maintain conversational context across multiple queries.
+          example: session-abc-123
+        stream:
+          type: boolean
+          description: Stream the answer as Server-Sent Events.
+          default: false
+        genius:
+          type: boolean
+          description: Use a larger, higher-accuracy model. Improves complex reasoning and bug diagnosis at a higher per-query cost.
+          default: false
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
