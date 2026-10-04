@@ -43,14 +43,32 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid Greptile API key or Git provider token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    SearchRequest:
+      type: object
+      required:
+      - query
+      - repositories
+      properties:
+        query:
+          type: string
+          example: where is rate limiting implemented
+        repositories:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryRef'
+        sessionId:
+          type: string
+        stream:
+          type: boolean
+          default: false
     Source:
       type: object
       description: A relevant source location returned by query or search.
@@ -102,31 +120,13 @@ components:
           type: string
           description: Branch to index or query. Defaults to the repository default branch.
           example: main
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    SearchRequest:
-      type: object
-      required:
-      - query
-      - repositories
-      properties:
-        query:
-          type: string
-          example: where is rate limiting implemented
-        repositories:
-          type: array
-          items:
-            $ref: '#/components/schemas/RepositoryRef'
-        sessionId:
-          type: string
-        stream:
-          type: boolean
-          default: false
+  responses:
+    Unauthorized:
+      description: Missing or invalid Greptile API key or Git provider token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
