@@ -140,6 +140,8 @@ apis:
   - type: APIReference
     url: https://docs.greptile.com/api-reference/search
 common:
+- type: Pricing
+  url: https://www.greptile.com/pricing
 - type: AgenticAccess
   url: agentic-access/greptile-agentic-access.yml
 - type: TrustCenter
