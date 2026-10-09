@@ -1,140 +1,73 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Greptile
-providerId: greptile
-created: '2026-06-20'
-modified: '2026-06-20'
-reconciled: true
-tags:
-- AI
-- Codebase Understanding
-- Code Review
-- Code Search
-- Developer Tools
-- Plans
-description: >-
-  Greptile sells two distinct products. The AI code-review GitHub App is priced
-  per seat per month with a bundle of reviews included per seat and overage
-  billed per additional review. The programmatic REST API (query, search,
-  repository indexing) is metered per query, with a higher rate for genius mode.
-  An Enterprise plan adds self-hosting, SSO/SAML, bring-your-own-LLM, and
-  negotiated terms. Free usage is offered to qualified open-source projects and
-  discounts to pre-Series-A startups.
-notes: >-
-  Pricing as published on the Greptile pricing page; the per-review bundle and
-  per-query rates change over time, so verify the live page on reconciliation.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://www.greptile.com/pricing
 sources:
 - https://www.greptile.com/pricing
-- https://docs.greptile.com/pricing
-- https://docs.greptile.com/quickstart
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T112025
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: per-seat
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-07'
+  evidence: Self-host in your own infrastructure
+  managed_tier: Pro
+published: true
+note: 'Credit costs: Base review 1 credit, Plus 3 credits, Apex 10 credits. Free for qualified OSS projects
+  with OSI-approved license; 50% off for pre-Series A startups under $2M revenue. Enterprise allows self-hosting
+  under custom paid contract.'
+plan_count: 3
+currency: USD
 plans:
-- id: greptile-code-review
-  name: Code Review (GitHub App)
-  type: subscription
-  description: >-
-    Per-seat AI code review delivered as a GitHub App. Each seat includes a
-    bundle of reviews per month; additional reviews are billed per review.
-  entries:
-  - label: Code Review Seat
-    name: code_review_seat
-    type: recurring
-    metric: seats
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $30 per seat / month (includes 50 reviews per seat)
-    userMultiplied: true
-  - label: Additional Code Review
-    name: code_review_overage
-    type: usage
-    metric: reviews
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $1 per review beyond the included bundle
-    userMultiplied: false
-  elements:
-  - name: AI Pull Request Review
-  - name: Full-Codebase Context
-  - name: Bug and Anti-Pattern Detection
-- id: greptile-api
-  name: API (Pay-as-you-go)
-  type: usage
-  description: >-
-    Programmatic access to the Query, Search, and Repositories endpoints, metered
-    per query with a higher rate for genius mode.
-  entries:
-  - label: Standard Query
-    name: api_query_standard
-    type: usage
-    metric: queries
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $0.15 per query
-    userMultiplied: false
-  - label: Genius Query
-    name: api_query_genius
-    type: usage
-    metric: queries
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $0.45 per query (larger model, complex bug diagnosis)
-    userMultiplied: false
-  elements:
-  - name: Query API
-  - name: Search API
-  - name: Repository Indexing API
-- id: greptile-enterprise
-  name: Enterprise
-  type: enterprise
-  description: >-
-    Custom pricing with self-hosting, SSO/SAML, custom DPA, dedicated Slack
-    support, forward-deployed engineers, GitHub Enterprise support, and
-    bring-your-own-LLM. Annual and multi-year discounts available.
-  entries:
-  - label: Enterprise Agreement
-    name: enterprise
-    type: flat
-    metric: contract
-    limit: -1
-    timeFrame: year
-    geo: global
-    unit: 1
-    price: contact sales
-    userMultiplied: false
-  elements:
-  - name: Self-Hosting
-  - name: SSO / SAML
-  - name: Bring-Your-Own-LLM
-  - name: GitHub Enterprise Support
-  - name: Forward-Deployed Engineers
-- id: greptile-discounts
-  name: Open Source and Startup Discounts
-  type: usage
-  description: >-
-    Free usage for qualified open-source projects and significant discounts for
-    pre-Series-A startups; eligibility on request.
-  entries:
-  - label: Open Source / Startup
-    name: discount_program
-    type: flat
-    metric: eligibility
-    limit: -1
-    timeFrame: year
-    geo: global
-    unit: 1
-    price: free or discounted (eligibility on request)
-    userMultiplied: false
-  elements:
-  - name: Open Source Free Tier
-  - name: Pre-Series-A Startup Discount
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+- name: Starter
+  price_text: Free
+  period: month
+  unit: 1 active developer
+  included_quota: 50 credits per month, 1 active developer, unlimited repositories
+- name: Pro
+  price_text: $30 /seat/month
+  price: 30
+  currency: USD
+  period: month
+  unit: seat
+  included_quota: 50 credits per seat per month
+  overage: Extra credits at $1 each
+- name: Enterprise
+  price_text: Custom pricing
+  period: none
+  included_quota: Everything in Pro, plus self-host, SSO/SAML, etc.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Starter
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
