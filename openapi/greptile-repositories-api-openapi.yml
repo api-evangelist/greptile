@@ -68,6 +68,13 @@ paths:
           description: Repository not found or not yet submitted.
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     IndexRepositoryResponse:
       type: object
       properties:
@@ -78,13 +85,6 @@ components:
           type: string
           description: URL to poll for indexing status.
           example: https://api.greptile.com/v2/repositories/github%3Amain%3Agreptileai%2Fgreptile
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     IndexRepositoryRequest:
       type: object
       required:

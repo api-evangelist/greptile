@@ -109,6 +109,28 @@ components:
           type: boolean
           description: Use a larger, higher-accuracy model. Improves complex reasoning and bug diagnosis at a higher per-query cost.
           default: false
+    RepositoryRef:
+      type: object
+      description: Reference to a specific repository and branch on a Git remote.
+      required:
+      - remote
+      - repository
+      properties:
+        remote:
+          type: string
+          description: The Git host the repository lives on.
+          enum:
+          - github
+          - gitlab
+          example: github
+        repository:
+          type: string
+          description: Repository in owner/name form.
+          example: greptileai/greptile
+        branch:
+          type: string
+          description: Branch to index or query. Defaults to the repository default branch.
+          example: main
     Source:
       type: object
       description: A relevant source location returned by query or search.
@@ -138,28 +160,6 @@ components:
         summary:
           type: string
           description: Summary of the file's contents and relevance.
-    RepositoryRef:
-      type: object
-      description: Reference to a specific repository and branch on a Git remote.
-      required:
-      - remote
-      - repository
-      properties:
-        remote:
-          type: string
-          description: The Git host the repository lives on.
-          enum:
-          - github
-          - gitlab
-          example: github
-        repository:
-          type: string
-          description: Repository in owner/name form.
-          example: greptileai/greptile
-        branch:
-          type: string
-          description: Branch to index or query. Defaults to the repository default branch.
-          example: main
   responses:
     Unauthorized:
       description: Missing or invalid Greptile API key or Git provider token.
