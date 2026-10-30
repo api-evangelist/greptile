@@ -1,4 +1,4 @@
-# Greptile (greptile)
+# Greptile
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,116 +66,142 @@
 
 Greptile builds an AI layer that understands entire codebases. Its public REST API indexes Git repositories into a graph plus embeddings, then answers natural-language questions and searches over that code. Greptile also ships an AI code-review product delivered as a GitHub App that reviews pull requests for bugs and anti-patterns.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/greptile/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/greptile/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Codebase Understanding · Code Review · Code Search · Developer Tools
 
-## Tags
+## Greptile on APIs.io
 
-- AI
-- Codebase Understanding
-- Code Review
-- Code Search
-- Developer Tools
+Everything profiled for Greptile is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/greptile/](https://apis.io/providers/greptile/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Created:** 2026-06-20
-- **Modified:** 2026-06-20
+- [Greptile Code Review (GitHub App)](https://apis.io/apis/greptile/greptile-code-review-github-app/) — AI code-review product delivered as a GitHub App (also GitLab / Bitbucket). Installed on repositories, it reviews pull requests against full-codebase…
+- [Greptile Query API](https://apis.io/apis/greptile/greptile-query-api/) — Ask natural-language questions over indexed repositories.
+- [Greptile Repositories API](https://apis.io/apis/greptile/greptile-repositories-api/) — Submit repositories for indexing and check indexing status.
+- [Greptile Search API](https://apis.io/apis/greptile/greptile-search-api/) — Retrieve relevant code locations without a synthesized answer.
 
-## APIs
+### Published properties
 
-### Greptile Query API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Submit a natural-language question against one or more indexed repositories and receive a synthesized answer plus the relevant source files, functions, and classes. Supports session continuity, an optional higher-accuracy genius mode, and streaming responses.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.greptile.com/api-reference/query](https://docs.greptile.com/api-reference/query)
-- **Base URL:** `https://api.greptile.com/v2`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Greptile Query Streaming (HTTP + SSE)](https://apis.io/asyncapis/greptile/greptile-asyncapi/)
 
-- Query
-- Natural Language
-- Codebase Q&A
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.greptile.com/quickstart)
-- [API Reference](https://docs.greptile.com/api-reference/query)
-- [OpenAPI](openapi/greptile-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/greptile.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/greptile.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Review](review.yml)
+- [/v2/query](https://apis.io/channels/greptile/v2-query/)
 
-### Greptile Repositories (Indexing) API
+#### Agentic access (1)
 
-Submit a Git repository for indexing and check indexing progress. POST /repositories queues a repo (remote, repository, branch) for processing into a graph and embeddings; GET /repositories/{repositoryId} returns processing status, file counts, and the indexed commit SHA.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://docs.greptile.com/api-reference/repositories](https://docs.greptile.com/api-reference/repositories)
-- **Base URL:** `https://api.greptile.com/v2`
+- [Greptile Agentic Access](https://apis.io/agentic-access/greptile/greptile-agentic-access/)
 
-#### Tags
+#### Collections (4)
 
-- Repositories
-- Indexing
-- Embeddings
+Postman and Open Collection request collections.
 
-#### Properties
+- [Greptile API](https://apis.io/collections/greptile/open-greptile/)
+- [Greptile Query API](https://apis.io/collections/greptile/open-greptile-query-api/)
+- [Greptile Query Repositories API](https://apis.io/collections/greptile/open-greptile-repositories-api/)
+- [Greptile Query Search API](https://apis.io/collections/greptile/open-greptile-search-api/)
 
-- [Documentation](https://docs.greptile.com/quickstart)
-- [API Reference](https://docs.greptile.com/api-reference/repositories)
-- [OpenAPI](openapi/greptile-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/greptile.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/greptile.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Governance rules (1)
 
-### Greptile Search API
+Spectral rulesets for the provider's contracts.
 
-Search one or more indexed repositories in natural language and receive just the ranked list of relevant files, functions, and classes - without the synthesized answer returned by the Query API.
+- [Greptile — asyncapi rules](https://apis.io/rules/greptile/greptile-asyncapi-spectral-rules/)
 
-- **Human URL:** [https://docs.greptile.com/api-reference/search](https://docs.greptile.com/api-reference/search)
-- **Base URL:** `https://api.greptile.com/v2`
+#### Security (4)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Search
-- Code Search
-- Retrieval
+- [Greptile Authentication](https://apis.io/security/greptile/greptile-authentication/)
+- [Greptile Domain Security](https://apis.io/security/greptile/greptile-domain-security/)
+- [Greptile Trust Center](https://apis.io/security/greptile/greptile-trust-center/)
+- [Greptile Vulnerability Disclosure](https://apis.io/security/greptile/greptile-vulnerability-disclosure/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://docs.greptile.com/quickstart)
-- [API Reference](https://docs.greptile.com/api-reference/search)
-- [OpenAPI](openapi/greptile-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/greptile.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/greptile.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Greptile Code Review (GitHub App)
+- [Greptile Plans Pricing](https://apis.io/plans/greptile/greptile-plans-pricing/)
 
-AI code-review product delivered as a GitHub App (also GitLab / Bitbucket). Installed on repositories, it reviews pull requests against full-codebase context, flagging bugs and anti-patterns. Billed per seat with included reviews per seat, distinct from the metered REST API.
+#### Rate limits (1)
 
-- **Human URL:** [https://www.greptile.com/](https://www.greptile.com/)
-- **Base URL:** `https://github.com/apps/greptile`
+Published request limits.
 
-#### Tags
+- [Greptile Rate Limits](https://apis.io/rate-limits/greptile/greptile-rate-limits/)
 
-- Code Review
-- GitHub App
-- Pull Requests
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://docs.greptile.com/)
-- [Plans](https://www.greptile.com/pricing)
+- [Greptile Finops](https://apis.io/finops/greptile/greptile-finops/)
 
-## Common Properties
+## Where to find this API
 
-- [GitHub Organization](https://github.com/greptileai)
-- [LinkedIn](https://www.linkedin.com/company/greptile)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.greptile.com)
 - [Documentation](https://docs.greptile.com)
-- [Plans](plans/greptile-plans-pricing.yml)
-- [Rate Limits](rate-limits/greptile-rate-limits.yml)
-- [Fin Ops](finops/greptile-finops.yml)
+- [Pricing](https://www.greptile.com/pricing)
+- [Blog](https://www.greptile.com/blog)
+- [GitHub](https://github.com/greptileai)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 38.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 58.6 |
+| Contract governance | 11.4 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 50.0 |
+
+**Agent readiness 21.5** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 20.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/greptile/](https://apis.io/providers/greptile/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Greptile: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/greptile/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
